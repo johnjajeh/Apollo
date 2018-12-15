@@ -5,10 +5,8 @@ import string
 import sys
 
 
-valid_chars = r'\W+'
-
-
 def make_valid_filename(name):
+    valid_chars = r'\W+'
     valid_name = re.sub(valid_chars, '', name)
     print(valid_name)
     return valid_name
@@ -22,7 +20,6 @@ def make_artist_directory(artist):
         os.mkdir(artist)
     except Exception as e:
         raise e
-
 
 def store_lyrics_in_file(artist, song, lyrics):
     path = os.path.join(

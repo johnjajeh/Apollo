@@ -1,55 +1,27 @@
 import lyricsgenius as genius
 import os
+import re
 
 api = genius.Genius(os.environ.get('GENIUS_API_TOKEN'))
 
 
-# artist name, max songs to collect
-# returns [
-#     [
-#        <artist>,
-#        <song_tile>,
-#        <lyrics>
-#     ],
-#     ...
-#   ]
-def collect_artist_song(artist, max_songs=None):
-    artist_search = api.search_artist(artist, max_songs)
-    
+'''
+    Returns an list containing lists of (1) song 
+    titles and (2) lyrics of a specified artist
+'''
+def collect_artist_songs(name, max_songs=None):
+    artist = api.search_artist(name, max_songs=max_songs)
 
+    songArray = []
 
-    return []
+    for song in artist.songs:
+        songArray.append([song.title, clean_lyrics(song.lyrics)])
 
-
-
-
-# how many songs
-
+    return songArray
 
 '''
-
-~~ Pseudo Code ~~
-
-input url of Genius musician?
-
-check if url is valid for a musician?
-    if true
-        continue
-    else
-        raise Exception
-
-store the artist's ID to have access to the songs
-numOfSongs = store the number of songs by the artist
-
-for i in range (numOfSongs)
-    write lyrics into txt file in folder directory set (in directory_util.py)
-
-
-~~~~~
-
-raw_annotatable_url
-
-https://github.com/johnwmillr/LyricsGenius/blob/master/lyricsgenius/artist.py
+    Returns pure lyrics from lyrics with metadata
 '''
-
-
+def clean_lyrics(lyrics):
+    to_remove = r'\[[^]]+\]'
+    return re.sub(to_remove, '', lyrics).strip()

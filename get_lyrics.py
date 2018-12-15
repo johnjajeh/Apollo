@@ -3,7 +3,7 @@ import sys
 import os
 
 from directory_util import make_artist_directory, store_lyrics_in_file
-from lyric_util import collect_artist_song
+from lyric_util import collect_artist_songs
 
 
 """
@@ -25,6 +25,6 @@ if __name__ == '__main__':
     artist = sys.argv[1]
     make_artist_directory(artist)
     count = None if len(sys.argv) < 3 else int(sys.argv[2])
-    songs = collect_artist_song(artist, count)
+    songs = collect_artist_songs(artist, count)
     for song_data in songs:
-        store_lyrics_in_file(*song_data)
+        store_lyrics_in_file(artist, *song_data)
